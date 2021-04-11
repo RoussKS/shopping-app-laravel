@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -33,21 +34,21 @@ class DatabaseSeeder extends Seeder
                     'name' => 'First-1 Last-1',
                     'email' => 'user-1@mailinator.com',
                     'email_verified_at' => now(),
-                    'password' => 'Password_001', // password
+                    'password' => Hash::make('Password_001'), // password
                     'remember_token' => Str::random(10),
                 ],
                 [
                     'name' => 'First-2 Last-2',
                     'email' => 'user-2@mailinator.com',
                     'email_verified_at' => now(),
-                    'password' => 'Password_002', // password
+                    'password' => Hash::make('Password_002'), // password
                     'remember_token' => Str::random(10),
                 ],
                 [
                     'name' => 'First-3 Last-3',
                     'email' => 'user-3@mailinator.com',
                     'email_verified_at' => now(),
-                    'password' => 'Password_003', // password
+                    'password' => Hash::make('Password_003'), // password
                     'remember_token' => Str::random(10),
                 ]
             ];
