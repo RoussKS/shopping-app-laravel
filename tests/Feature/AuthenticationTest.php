@@ -7,6 +7,11 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class AuthenticationTest
+ *
+ * @package Tests\Feature
+ */
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
@@ -20,6 +25,7 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_authenticate_using_the_login_screen()
     {
+        /** @var \App\Models\User $user */
         $user = User::factory()->create();
 
         $response = $this->post('/login', [
@@ -33,6 +39,7 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_not_authenticate_with_invalid_password()
     {
+        /** @var \App\Models\User $user */
         $user = User::factory()->create();
 
         $this->post('/login', [

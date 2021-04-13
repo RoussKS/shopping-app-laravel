@@ -68,20 +68,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(ShoppingList::class);
     }
-
-    /**
-     * Boot function from Laravel.
-     *
-     * Add UUID to the model.
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (ShoppingList $shoppingList) {
-            if (empty($shoppingList->uuid)) {
-                $shoppingList->uuid = Str::uuid()->toString();
-            }
-        });
-    }
 }
