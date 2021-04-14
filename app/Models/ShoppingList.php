@@ -46,6 +46,22 @@ class ShoppingList extends Model
     protected $primaryKey = 'uuid';
 
     /**
+     * @var string[]
+     */
+    protected $fillable = [
+        'user_id'
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    protected $casts = [
+        'id' => 'int',
+        'uuid' => 'string',
+        'user_id' => 'int'
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\App\Models\User
      */
     public function user()
