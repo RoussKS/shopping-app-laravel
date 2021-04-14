@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\ShoppingList;
 use App\Models\User;
+use App\Observers\ShoppingListObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -29,6 +31,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        ShoppingList::observe(ShoppingListObserver::class);
         User::observe(UserObserver::class);
     }
 }
