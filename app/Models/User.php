@@ -32,6 +32,27 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
+     * @inheritdoc
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * @inheritdoc
+     *
+     * @var string
+     */
+    public $keyType = 'string';
+
+    /**
+     * @inheritdoc
+     *
+     * @var string
+     */
+    protected $primaryKey = 'uuid';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -66,6 +87,6 @@ class User extends Authenticatable
      */
     public function shoppingList()
     {
-        return $this->hasOne(ShoppingList::class);
+        return $this->hasOne(ShoppingList::class, 'user_id', 'id');
     }
 }
