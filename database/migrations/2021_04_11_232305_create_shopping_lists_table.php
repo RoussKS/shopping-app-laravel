@@ -21,7 +21,6 @@ class CreateShoppingListsTable extends Migration
             $table->uuid('uuid')->unique();
             // user_id column with foreign key
             $table->foreignId('user_id')->constrained();
-            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }
