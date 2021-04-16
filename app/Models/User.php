@@ -32,27 +32,6 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
-     * @inheritdoc
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * @inheritdoc
-     *
-     * @var string
-     */
-    public $keyType = 'string';
-
-    /**
-     * @inheritdoc
-     *
-     * @var string
-     */
-    protected $primaryKey = 'uuid';
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -87,6 +66,16 @@ class User extends Authenticatable
         'email' => 'string',
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @inheritdoc
+     *
+     * Replace route model binding key name with UUID.
+     */
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne|\App\Models\ShoppingList

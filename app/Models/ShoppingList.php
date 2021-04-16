@@ -25,27 +25,6 @@ class ShoppingList extends Model
     use HasFactory;
 
     /**
-     * @inheritdoc
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * @inheritdoc
-     *
-     * @var string
-     */
-    public $keyType = 'string';
-
-    /**
-     * @inheritdoc
-     *
-     * @var string
-     */
-    protected $primaryKey = 'uuid';
-
-    /**
      * @var string[]
      */
     protected $fillable = [
@@ -60,6 +39,16 @@ class ShoppingList extends Model
         'uuid' => 'string',
         'user_id' => 'int'
     ];
+
+    /**
+     * @inheritdoc
+     *
+     * Replace route model binding key name with UUID.
+     */
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\App\Models\User

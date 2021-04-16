@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class AuthenticationTest
+ * Class UserUuidTest
  *
  * @package Tests\Feature
  */
