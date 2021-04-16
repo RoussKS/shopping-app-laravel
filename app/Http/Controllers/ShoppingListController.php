@@ -8,6 +8,7 @@ use App\Contracts\Services\ShoppingListServiceContract;
 use App\Http\Requests\ShoppingList\ShoppingListStoreRequest;
 use App\InputModels\ShoppingListInputModel;
 use App\ViewModels\ShoppingListViewModel;
+use Illuminate\Routing\Redirector;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -48,13 +49,15 @@ class ShoppingListController extends Controller
      * @param  \App\Http\Requests\ShoppingList\ShoppingListStoreRequest  $request
      * @param  \App\InputModels\ShoppingListInputModel  $inputModel
      * @param  \App\ViewModels\ShoppingListViewModel  $viewModel
+     * @param  \Illuminate\Routing\Redirector $redirector
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(
         ShoppingListStoreRequest $request,
         ShoppingListInputModel $inputModel,
-        ShoppingListViewModel $viewModel
+        ShoppingListViewModel $viewModel,
+        Redirector $redirector
     ) {
         try {
             /** @var \App\Models\User $user */
@@ -67,8 +70,22 @@ class ShoppingListController extends Controller
 
             // Set View Model properties.
             $viewModel->setAttributes($shoppingList->toArray());
+
+            $this->logger->info($shoppingList->toJson());
+
+            return $redirector->back()->with(
+                [
+                    'status' => 'Successfully created Shopping List'
+                ]
+            );
         } catch (Throwable $throwable) {
             $this->logger->critical($throwable->getMessage());
+
+            return $redirector->back()->withErrors(
+                [
+                    'status' => 'Could not create Shopping List'
+                ]
+            );
         }
     }
 

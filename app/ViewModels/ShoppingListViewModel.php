@@ -5,11 +5,10 @@ namespace App\ViewModels;
 use Jenssegers\Model\Model;
 
 /**
- * Class ShoppingListInputModel
+ * Class ShoppingListViewModel
  *
- * @package App\InputModels
+ * @package App\ViewModels
  *
- * @property int $id
  * @property string $uuid
  * @property int $user_id
  * @property \Carbon\Carbon $created_at
@@ -21,7 +20,6 @@ class ShoppingListViewModel extends Model
      * @inheritdoc
      */
     protected $fillable = [
-        'id',
         'uuid',
         'user_id',
         'created_at',

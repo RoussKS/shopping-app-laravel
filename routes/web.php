@@ -32,7 +32,7 @@ Route::get('/dashboard', function () {
  * Get (View)
  */
 Route::prefix('shopping-lists')->middleware(['auth'])->group(function () {
-    Route::post('/', [ShoppingListController::class, 'store']);
+    Route::post('', [ShoppingListController::class, 'store']);
 });
 
 require __DIR__. '/auth.php';

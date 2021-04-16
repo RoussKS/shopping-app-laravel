@@ -36,8 +36,35 @@ class ShoppingListTest extends TestCase
 
         $this->actingAs($user);
 
+        // Visit dashboard first where the post request will be available.
+        $this->get('dashboard');
+
         $response = $this->post('shopping-lists');
 
-        $this->assertDatabaseCount('shopping_lists', 1);
+        $response->assertRedirect('dashboard');
+
+        $response->assertSessionHasNoErrors();
+
+        $response->assertSessionHas('status', 'Successfully created Shopping List');
+    }
+
+    public function test_authenticated_user_can_not_create_more_than_one_shopping_list()
+    {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        // Visit dashboard first where the post request will be available.
+        $this->get('dashboard');
+
+        // Create first shopping list.
+        $this->post('shopping-lists');
+
+        // Attempt to create second second shopping list.
+        $secondResponse = $this->post('shopping-lists');
+
+        // Expect to fail with 403.
+        $secondResponse->assertForbidden();
     }
 }

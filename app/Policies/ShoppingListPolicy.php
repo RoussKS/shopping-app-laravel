@@ -48,11 +48,11 @@ class ShoppingListPolicy
      *
      * @param  \App\Models\User  $user
      *
-     * @return bool
+     * @return  bool
      */
     public function create(User $user): bool
     {
-        return $user->shoppingList === null;
+        return $user->shoppingList()->first() === null;
     }
 
     /**
