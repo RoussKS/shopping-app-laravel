@@ -75,7 +75,7 @@ class ShoppingListController extends Controller
 
             return $redirector->back()->with(
                 [
-                    'status' => 'Successfully created Shopping List'
+                    'message' => 'Successfully created Shopping List'
                 ]
             );
         } catch (Throwable $throwable) {
@@ -83,7 +83,7 @@ class ShoppingListController extends Controller
 
             return $redirector->back()->withErrors(
                 [
-                    'status' => 'Could not create Shopping List'
+                    'Could not create Shopping List'
                 ]
             );
         }

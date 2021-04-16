@@ -45,7 +45,7 @@ class ShoppingListTest extends TestCase
 
         $response->assertSessionHasNoErrors();
 
-        $response->assertSessionHas('status', 'Successfully created Shopping List');
+        $response->assertSessionHas('message', 'Successfully created Shopping List');
     }
 
     public function test_authenticated_user_can_not_create_more_than_one_shopping_list()
