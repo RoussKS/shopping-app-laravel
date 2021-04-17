@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ShoppingListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Generic Routes
+ */
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', DashboardController::class)->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+/**
+ * ShoppingList
+ *
+ * Post (Store)
+ * Get (View)
+ */
+Route::prefix('shopping-lists')->middleware(['auth'])->group(function () {
+    Route::post('', [ShoppingListController::class, 'store'])->name('shopping-lists.store');
+});
+
+require __DIR__. '/auth.php';
