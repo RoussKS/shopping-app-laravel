@@ -16,6 +16,7 @@ class CreateShoppingItemsTable extends Migration
         Schema::create('shopping_items', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
+            $table->string('name');
             // shopping_list_id column with foreign key
             $table->foreignId('shopping_list_id')->constrained();
             $table->boolean('is_purchased');

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $uuid
+ * @property string $name
  * @property int $shopping_list_id
  * @property bool $is_purchased
  * @property \Carbon\Carbon $created_at
@@ -27,6 +28,7 @@ class ShoppingItem extends Model
      * @var string[]
      */
     protected $fillable = [
+        'name',
         'shopping_list_id',
         'is_purchased'
     ];
@@ -36,6 +38,7 @@ class ShoppingItem extends Model
      */
     protected $casts = [
         'uuid' => 'string',
+        'name' => 'string',
         'shopping_list_id' => 'int',
         'is_purchased' => 'bool'
     ];
