@@ -15,13 +15,11 @@ use App\Models\ShoppingList;
 interface ShoppingListServiceContract
 {
     /**
-     * Get all Shopping Lists for a user.
-     *
      * @param  int $userId
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\App\Models\ShoppingList[]
+     * @return \App\Models\ShoppingList|null
      */
-    public function getAllByUserId(int $userId);
+    public function getFirstByUserId(int $userId): ?ShoppingList;
 
     /**
      * Create a new Shopping List

@@ -15,9 +15,12 @@ use App\Models\ShoppingList;
  */
 class ShoppingListService implements ShoppingListServiceContract
 {
-    public function getAllByUserId(int $userId)
+    /**
+     * @inheritDoc
+     */
+    public function getFirstByUserId(int $userId): ?ShoppingList
     {
-        // TODO: Implement getAllByUserId() method.
+        return $this->query()->firstWhere('user_id', '=', $userId);
     }
 
     /**
