@@ -19,6 +19,7 @@ class DeferrableServiceProvider extends ServiceProvider implements DeferrablePro
      */
     public $bindings = [
         'App\Contracts\Services\ShoppingListServiceContract' => 'App\Services\ShoppingListService',
+        'App\Contracts\Services\ShoppingItemServiceContract' => 'App\Services\ShoppingItemService',
     ];
 
     /**
