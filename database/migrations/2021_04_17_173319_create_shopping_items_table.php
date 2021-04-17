@@ -21,7 +21,6 @@ class CreateShoppingItemsTable extends Migration
             $table->foreignId('shopping_list_id')->constrained();
             $table->boolean('is_purchased');
             $table->timestamps();
-            $table->timestamps();
         });
     }
 
