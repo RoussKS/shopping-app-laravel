@@ -72,7 +72,7 @@ class User extends Authenticatable
      *
      * Replace route model binding key name with UUID.
      */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'uuid';
     }
