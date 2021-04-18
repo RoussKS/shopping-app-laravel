@@ -38,5 +38,15 @@ interface ShoppingItemServiceContract
      *
      * @return bool
      */
-    public function delete(ShoppingItem $shoppingItem);
+    public function delete(ShoppingItem $shoppingItem): bool;
+
+    /**
+     * Update a shopping item.
+     *
+     * @param  \App\Models\ShoppingItem $shoppingItem
+     * @param  \App\InputModels\ShoppingItemInputModel $inputModel
+     *
+     * @return \App\Models\ShoppingItem
+     */
+    public function update(ShoppingItem $shoppingItem, ShoppingItemInputModel $inputModel): ShoppingItem;
 }

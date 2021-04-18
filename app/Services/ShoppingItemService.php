@@ -43,9 +43,26 @@ class ShoppingItemService implements ShoppingItemServiceContract
     /**
      * @inheritDoc
      *
+     * Cannot return false as we know the model exists.
+     * Currently limited to mark as is_purchased.
+     */
+    public function update(ShoppingItem $shoppingItem, ShoppingItemInputModel $inputModel): ShoppingItem
+    {
+        $shoppingItem->update(
+            [
+                'is_purchased' => $inputModel->is_purchased
+            ]
+        );
+
+        return $shoppingItem->refresh();
+    }
+
+    /**
+     * @inheritDoc
+     *
      * @throws \Exception
      */
-    public function delete(ShoppingItem $shoppingItem)
+    public function delete(ShoppingItem $shoppingItem): bool
     {
         return $shoppingItem->delete();
     }
