@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\ShoppingItem;
 use App\Models\ShoppingList;
+use App\Policies\ShoppingItemPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Policies\ShoppingListPolicy;
 
@@ -21,7 +23,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        ShoppingList::class => ShoppingListPolicy::class
+        ShoppingList::class => ShoppingListPolicy::class,
+        ShoppingItem::class => ShoppingItemPolicy::class
     ];
 
     /**

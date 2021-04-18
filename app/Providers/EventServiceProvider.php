@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\ShoppingItem;
 use App\Models\ShoppingList;
 use App\Models\User;
+use App\Observers\ShoppingItemObserver;
 use App\Observers\ShoppingListObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
@@ -31,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        ShoppingItem::observe(ShoppingItemObserver::class);
         ShoppingList::observe(ShoppingListObserver::class);
         User::observe(UserObserver::class);
     }

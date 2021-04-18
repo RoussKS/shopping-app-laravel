@@ -19,7 +19,7 @@ class CreateShoppingItemsTable extends Migration
             $table->string('name');
             // shopping_list_id column with foreign key
             $table->foreignId('shopping_list_id')->constrained();
-            $table->boolean('is_purchased');
+            $table->boolean('is_purchased')->default(false); // Defaults to false for when created.
             $table->timestamps();
         });
     }

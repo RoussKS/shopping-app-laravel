@@ -42,9 +42,9 @@ class DashboardController extends Controller
     /**
      * DashboardController constructor.
      *
-     * @param \App\Contracts\Services\ShoppingItemServiceContract $shoppingItemService
-     * @param \App\Contracts\Services\ShoppingListServiceContract $shoppingListService
-     * @param \Illuminate\Http\Request $request
+     * @param  \App\Contracts\Services\ShoppingItemServiceContract $shoppingItemService
+     * @param  \App\Contracts\Services\ShoppingListServiceContract $shoppingListService
+     * @param  \Illuminate\Http\Request $request
      *
      * @return void
      */
@@ -59,9 +59,9 @@ class DashboardController extends Controller
     }
 
     /**
-     * @param \App\ViewModels\ShoppingListViewModel $shoppingListViewModel
-     * @param \App\ViewModels\ShoppingItemViewModel $shoppingItemViewModel
-     * @param \App\ViewModels\UserViewModel $userViewModel
+     * @param  \App\ViewModels\ShoppingListViewModel $shoppingListViewModel
+     * @param  \App\ViewModels\ShoppingItemViewModel $shoppingItemViewModel
+     * @param  \App\ViewModels\UserViewModel $userViewModel
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -114,12 +114,16 @@ class DashboardController extends Controller
             return $shoppingItemsViewModelCollection;
         }
 
-        // Loop through shopping item models and relevant view models to collection
+        // Loop through shopping item models and add generated view models to collection.
         $shoppingItems->each(
             function (ShoppingItem $shoppingItem) use ($shoppingItemsViewModelCollection, $shoppingItemViewModel) {
-                $shoppingItemViewModel->nullify();
+                // If not first item of loop (view model not set yet), replicate without values
+                if ($shoppingItemViewModel->uuid !== null) {
+                    $shoppingItemViewModel = $shoppingItemViewModel->replicate($shoppingItemViewModel->getFillable());
+                }
+
                 $shoppingItemViewModel->setAttributes($shoppingItem->toArray());
-                $shoppingItemsViewModelCollection->add($shoppingItemViewModel);
+                $shoppingItemsViewModelCollection->push($shoppingItemViewModel);
             }
         );
 
