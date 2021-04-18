@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Models\ShoppingItem;
+use App\Models\ShoppingList;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -47,13 +48,16 @@ class ShoppingItemPolicy
     /**
      * Determine whether the user can create models.
      *
+     * Only if the shopping list belongs to the user.
+     *
      * @param  \App\Models\User  $user
+     * @param  \App\Models\ShoppingList $shoppingList
      *
      * @return  bool
      */
-    public function create(User $user): bool
+    public function create(User $user, ShoppingList $shoppingList): bool
     {
-        return true;
+        return $user->id === $shoppingList->user_id;
     }
 
     /**

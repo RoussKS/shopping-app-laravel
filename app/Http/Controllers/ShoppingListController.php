@@ -8,6 +8,7 @@ use App\Contracts\Services\ShoppingListServiceContract;
 use App\Http\Requests\ShoppingList\ShoppingListStoreRequest;
 use App\InputModels\ShoppingListInputModel;
 use App\ViewModels\ShoppingListViewModel;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -48,7 +49,6 @@ class ShoppingListController extends Controller
      *
      * @param  \App\Http\Requests\ShoppingList\ShoppingListStoreRequest  $request
      * @param  \App\InputModels\ShoppingListInputModel  $inputModel
-     * @param  \App\ViewModels\ShoppingListViewModel  $viewModel
      * @param  \Illuminate\Routing\Redirector $redirector
      *
      * @return \Illuminate\Http\RedirectResponse
@@ -56,9 +56,8 @@ class ShoppingListController extends Controller
     public function store(
         ShoppingListStoreRequest $request,
         ShoppingListInputModel $inputModel,
-        ShoppingListViewModel $viewModel,
         Redirector $redirector
-    ) {
+    ): RedirectResponse {
         try {
             /** @var \App\Models\User $user */
             $user = $request->user();
@@ -66,12 +65,7 @@ class ShoppingListController extends Controller
             // Set Input Model properties.
             $inputModel->setAttributes(['user_id' => $user->id]);
 
-            $shoppingList = $this->shoppingListService->create($inputModel);
-
-            // Set View Model properties.
-            $viewModel->setAttributes($shoppingList->toArray());
-
-            $this->logger->info($shoppingList->toJson());
+            $this->shoppingListService->create($inputModel);
 
             return $redirector->back()->with(
                 [

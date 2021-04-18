@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Services\ShoppingItemServiceContract;
+use App\Http\Requests\ShoppingItem\ShoppingItemStoreRequest;
+use App\InputModels\ShoppingItemInputModel;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * Class ShoppingItemController
@@ -13,26 +20,80 @@ use Illuminate\Http\Request;
  */
 class ShoppingItemController extends Controller
 {
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
 
     /**
-     * Show the form for creating a new resource.
+     * The Shopping Item service contract implementation.
      *
-     * @return \Illuminate\Http\Response
+     * @var \App\Contracts\Services\ShoppingItemServiceContract
      */
-    public function create()
+    protected $shoppingItemService;
+
+    /**
+     * ShoppingItemController constructor.
+     *
+     * @param  \Psr\Log\LoggerInterface $logger
+     * @param  \App\Contracts\Services\ShoppingItemServiceContract $shoppingItemService
+     *
+     * @return void
+     */
+    public function __construct(LoggerInterface $logger, ShoppingItemServiceContract $shoppingItemService)
     {
-        //
+        $this->logger = $logger;
+        $this->shoppingItemService = $shoppingItemService;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\ShoppingItem\ShoppingItemStoreRequest $request
+     * @param  \App\InputModels\ShoppingItemInputModel $inputModel
+     * @param  \Illuminate\Routing\Redirector $redirector
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(
+        ShoppingItemStoreRequest $request,
+        ShoppingItemInputModel $inputModel,
+        Redirector $redirector
+    ): RedirectResponse {
+        try {
+            /**
+             * This is autoresolved from route model binding.
+             *
+             * @var \App\Models\ShoppingList $shoppingList
+             */
+            $shoppingList = $request->route('shopping-list');
+
+            $requestInput = $request->validated();
+
+            $inputModel->setAttributes(
+                [
+                    'name' => $requestInput['name'],
+                    'shopping_list_id' => $shoppingList->id,
+                    'is_purchased' => false // When created, should not already been purchased.
+                ]
+            );
+
+            $this->shoppingItemService->create($inputModel);
+
+            return $redirector->back()->with(
+                [
+                    'message' => 'Successfully added Item to the Shopping List'
+                ]
+            );
+        } catch (Throwable $throwable) {
+            $this->logger->critical($throwable->getMessage());
+
+            return $redirector->back()->withErrors(
+                [
+                    'Could not add Item to the Shopping List'
+                ]
+            );
+        }
     }
 
     /**
