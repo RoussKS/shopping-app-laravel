@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels;
 
 use Jenssegers\Model\Model;
@@ -30,7 +32,6 @@ class ShoppingListViewModel extends Model
      * @inheritdoc
      */
     protected $casts = [
-        'id' => 'int',
         'uuid' => 'string',
         'user_id' => 'id',
         'created_at' => 'datetime',

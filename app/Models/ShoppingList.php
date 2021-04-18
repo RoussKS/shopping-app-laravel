@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  *
  * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ShoppingItem[] $shoppingItems
  */
 class ShoppingList extends Model
 {
@@ -45,7 +46,7 @@ class ShoppingList extends Model
      *
      * Replace route model binding key name with UUID.
      */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'uuid';
     }
@@ -56,5 +57,13 @@ class ShoppingList extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\App\Models\ShoppingItem[]
+     */
+    public function shoppingItems()
+    {
+        return $this->hasMany(ShoppingItem::class);
     }
 }

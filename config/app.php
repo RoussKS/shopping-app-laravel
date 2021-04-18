@@ -170,9 +170,10 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
+        // Needs to be loaded before Auth Service Provider for class instantiations that are deferred (not singletons)
+        App\Providers\DeferrableServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\DeferrableServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 

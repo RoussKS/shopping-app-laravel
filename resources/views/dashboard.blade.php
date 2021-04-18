@@ -1,6 +1,7 @@
 @php
 /** @var \App\ViewModels\UserViewModel $user */
 /** @var \App\ViewModels\ShoppingListViewModel|null $shoppingist */
+/** @var \Illuminate\Support\Collection|\App\ViewModels\ShoppingItemViewModel[] $shoppingItems */
 @endphp
 <x-app-layout>
     <x-slot name="header">
@@ -15,10 +16,24 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     {{ __('Welcome') }}: {{ $user->name }}
                 </div>
-                <div class="p-6 bg-white border-b border-gray-200">
-                    @isset($shoppingList)
-                        <h2>{{ __('Shopping List UUID') }}: {{ $shoppingList->uuid }}</h2>
-                    @else
+                @isset ($shoppingList)
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <h2>{{ __('Your Shopping List') }}</h2>
+                        <div class="mt-2">
+                            {{ __('Add an item to your Shopping List') }}
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <ul>
+                            @foreach($shoppingItems as $shoppingItem)
+                                <li>
+                                    {{ __('Shopping Item: ') }} {{ $shoppingItem->name }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @else
+                    <div class="p-6 bg-white border-b border-gray-200">
                         <form method="POST" action="{{ route('shopping-lists.store') }}">
                             @csrf
                             @method('POST')
@@ -26,8 +41,9 @@
                                 {{ __('Create your shopping List') }}
                             </x-button>
                         </form>
-                    @endisset
-                </div>
+                    </div>
+                @endisset
+
             </div>
         </div>
     </div>

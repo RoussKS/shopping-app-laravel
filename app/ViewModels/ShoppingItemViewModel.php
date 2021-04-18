@@ -7,18 +7,18 @@ namespace App\ViewModels;
 use Jenssegers\Model\Model;
 
 /**
- * Class ShoppingListViewModel
+ * Class ShoppingItemViewModel
  *
  * @package App\ViewModels
  *
  * @property string $uuid
  * @property string $name
- * @property string $email
- * @property \Carbon\Carbon $email_verified_at
+ * @property int $shopping_list_id
+ * @property bool $is_purchased
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
-class UserViewModel extends Model
+class ShoppingItemViewModel extends Model
 {
     /**
      * @inheritdoc
@@ -26,8 +26,8 @@ class UserViewModel extends Model
     protected $fillable = [
         'uuid',
         'name',
-        'email',
-        'email_verified_at',
+        'shopping_list_id',
+        'is_purchased',
         'created_at',
         'updated_at',
     ];
@@ -38,8 +38,8 @@ class UserViewModel extends Model
     protected $casts = [
         'uuid' => 'string',
         'name' => 'string',
-        'email' => 'string',
-        'email_verified_at' => 'datetime',
+        'shopping_list_id' => 'id',
+        'is_purchased' => 'bool',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -61,6 +61,16 @@ class UserViewModel extends Model
 
             // Policy dictates who can change the Model on request, so we can replace user_id if allowed.
             $this->$attribute = $data[$attribute];
+        }
+    }
+
+    /**
+     * Set all attributes to null
+     */
+    public function nullify(): void
+    {
+        foreach ($this->fillable as $attribute) {
+            $this->$attribute = null;
         }
     }
 }

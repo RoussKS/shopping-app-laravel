@@ -2,46 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\ViewModels;
+namespace App\InputModels;
 
 use Jenssegers\Model\Model;
 
 /**
- * Class ShoppingListViewModel
+ * Class ShoppingItemInputModel
  *
- * @package App\ViewModels
+ * @package App\InputModels
  *
- * @property string $uuid
  * @property string $name
- * @property string $email
- * @property \Carbon\Carbon $email_verified_at
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property int $shopping_list_id
+ * @property bool $is_purchased
  */
-class UserViewModel extends Model
+class ShoppingItemInputModel extends Model
 {
     /**
      * @inheritdoc
      */
     protected $fillable = [
-        'uuid',
         'name',
-        'email',
-        'email_verified_at',
-        'created_at',
-        'updated_at',
+        'shopping_list_id',
+        'is_purchased'
     ];
 
     /**
      * @inheritdoc
      */
     protected $casts = [
-        'uuid' => 'string',
         'name' => 'string',
-        'email' => 'string',
-        'email_verified_at' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'shopping_list_id' => 'int',
+        'is_purchased' => 'bool'
     ];
 
     /**
