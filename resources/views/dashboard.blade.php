@@ -34,7 +34,7 @@
                                              :value="old('shopping_item_name')"
                                              required />
 
-                                    <x-button class="ml-2 bg-green-500 hover:bg-green-600">
+                                    <x-button class="ml-2">
                                         {{ __('Add item to your shopping List') }}
                                     </x-button>
                                 </div>
@@ -46,9 +46,23 @@
                         <ul class="mt-2">
                             @forelse($shoppingItems as $shoppingItem)
                                 <li class="mt-2 flex flex-wrap items-center">
-                                    <span class="list-disc">{{ $shoppingItem->name }}</span>
+                                    {{-- Delete an item form --}}
+                                    <form method="POST"
+                                          action="{{ route('shopping-items.destroy', ['shopping_list' => $shoppingList->uuid, 'shopping_item' => $shoppingItem->uuid]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="flex flex-wrap items-center">
+                                            <x-button class="ml-2 bg-red-700 hover:bg-red-800">
+                                                {{ __('Remove item') }}
+                                            </x-button>
+                                        </div>
+                                    </form>
                                     {{-- Mark an item as purchased form, if it is not --}}
-                                    @if (!$shoppingItem->is_purchased)
+                                    @if ($shoppingItem->is_purchased)
+                                        <div class="ml-2 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent font-semibold text-xs text-white uppercase tracking-widest">
+                                            {{ __('Purchased') }}
+                                        </div>
+                                    @else
                                         <form method="POST"
                                               action="{{ route('shopping-items.update', ['shopping_list' => $shoppingList->uuid, 'shopping_item' => $shoppingItem->uuid]) }}">
                                             @csrf
@@ -65,23 +79,13 @@
                                                          :value="1"
                                                          checked
                                                          required />
-                                                <x-button class="ml-2">
-                                                    {{ __('Mark item as purchased') }}
+                                                <x-button class="ml-2 bg-blue-700 hover:bg-blue-800">
+                                                    {{ __('Mark purchased') }}
                                                 </x-button>
                                             </div>
                                         </form>
                                     @endif
-                                    {{-- Delete an item form --}}
-                                    <form method="POST"
-                                          action="{{ route('shopping-items.destroy', ['shopping_list' => $shoppingList->uuid, 'shopping_item' => $shoppingItem->uuid]) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <div class="flex flex-wrap items-center">
-                                            <x-button class="ml-2 bg-red-500 hover:bg-red-600">
-                                                {{ __('Remove item') }}
-                                            </x-button>
-                                        </div>
-                                    </form>
+                                    <span class="ml-2{{ $shoppingItem->is_purchased ? ' line-through': '' }}">{{ $shoppingItem->name }}</span>
                                 </li>
                             @empty
                                 <li>{{ __('You do not have any items in your list') }}</li>
