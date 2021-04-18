@@ -25,7 +25,7 @@ class ShoppingItemDestroyRequest extends FormRequest
     public function authorize(Gate $gate): bool
     {
         // Pass Shopping List route param (model binding) to ShoppingItemPolicy, to validate user authorization.
-        return $gate->allows('delete', [ShoppingItem::class, $this->route('shopping_list')]);
+        return $gate->allows('delete', [$this->route('shopping_item')]);
     }
 
     /**

@@ -48,7 +48,7 @@ Route::prefix('shopping-lists')->middleware(['auth'])->group(function () {
             [ShoppingItemController::class, 'store']
         )->name('shopping-items.store');
         Route::delete(
-            '/shopping-item',
+            '/shopping-item/{shopping_item}',
             [ShoppingItemController::class, 'destroy']
         )->name('shopping-items.destroy');
     });
