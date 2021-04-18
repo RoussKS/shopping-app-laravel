@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\ShoppingItem;
 
-use App\Models\ShoppingItem;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class ShoppingItemDestroyRequest
  *
- * @package App\Http\Requests\ShoppingList
+ * @package App\Http\Requests\ShoppingItem
  */
 class ShoppingItemDestroyRequest extends FormRequest
 {
@@ -24,7 +23,7 @@ class ShoppingItemDestroyRequest extends FormRequest
      */
     public function authorize(Gate $gate): bool
     {
-        // Pass Shopping List route param (model binding) to ShoppingItemPolicy, to validate user authorization.
+        // Pass Shopping Item route param (model binding) to ShoppingItemPolicy, to validate user authorization.
         return $gate->allows('delete', [$this->route('shopping_item')]);
     }
 

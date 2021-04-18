@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\ShoppingItem;
 
-use App\Models\ShoppingItem;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ShoppingListStoreRequest
+ * Class ShoppingItemUpdateRequest
  *
  * @package App\Http\Requests\ShoppingItem
  */
-class ShoppingItemStoreRequest extends FormRequest
+class ShoppingItemUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +23,8 @@ class ShoppingItemStoreRequest extends FormRequest
      */
     public function authorize(Gate $gate): bool
     {
-        // Pass Shopping List route param (model binding) to ShoppingItemPolicy, to validate user authorization.
-        return $gate->allows('create', [ShoppingItem::class, $this->route('shopping_list')]);
+        // Pass Shopping Item route param (model binding) to ShoppingItemPolicy, to validate user authorization.
+        return $gate->allows('update', [$this->route('shopping_item')]);
     }
 
     /**
@@ -37,7 +36,7 @@ class ShoppingItemStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'shopping_item_name' => 'required|string'
+            'is_purchased' => 'boolean'
         ];
     }
 }
