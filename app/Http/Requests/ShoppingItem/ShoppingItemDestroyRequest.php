@@ -9,11 +9,11 @@ use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ShoppingListStoreRequest
+ * Class ShoppingItemDestroyRequest
  *
  * @package App\Http\Requests\ShoppingList
  */
-class ShoppingItemStoreRequest extends FormRequest
+class ShoppingItemDestroyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class ShoppingItemStoreRequest extends FormRequest
     public function authorize(Gate $gate): bool
     {
         // Pass Shopping List route param (model binding) to ShoppingItemPolicy, to validate user authorization.
-        return $gate->allows('create', [ShoppingItem::class, $this->route('shopping_list')]);
+        return $gate->allows('delete', [$this->route('shopping_item')]);
     }
 
     /**
@@ -37,7 +37,7 @@ class ShoppingItemStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'shopping_item_name' => 'required|string'
+            //
         ];
     }
 }

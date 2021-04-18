@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Contracts\Services\ShoppingItemServiceContract;
+use App\Http\Requests\ShoppingItem\ShoppingItemDestroyRequest;
 use App\Http\Requests\ShoppingItem\ShoppingItemStoreRequest;
 use App\InputModels\ShoppingItemInputModel;
+use App\Models\ShoppingItem;
 use App\Models\ShoppingList;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,16 +52,16 @@ class ShoppingItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Models\ShoppingList $shoppingList
      * @param  \App\Http\Requests\ShoppingItem\ShoppingItemStoreRequest $request
+     * @param  \App\Models\ShoppingList $shoppingList
      * @param  \App\InputModels\ShoppingItemInputModel $inputModel
      * @param  \Illuminate\Routing\Redirector $redirector
      *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(
-        ShoppingList $shoppingList,
         ShoppingItemStoreRequest $request,
+        ShoppingList $shoppingList,
         ShoppingItemInputModel $inputModel,
         Redirector $redirector
     ): RedirectResponse {
@@ -107,11 +109,43 @@ class ShoppingItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param   \App\Http\Requests\ShoppingItem\ShoppingItemDestroyRequest $request
+     * @param   \App\Models\ShoppingList $shoppingList
+     * @param   \App\Models\ShoppingItem $shoppingItem
+     * @param   \Illuminate\Routing\Redirector $redirector
+     *
+     * @return  \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(
+        ShoppingItemDestroyRequest $request,
+        ShoppingList $shoppingList,
+        ShoppingItem $shoppingItem,
+        Redirector $redirector
+    ): RedirectResponse {
+        try {
+            // Redirect with message on success.
+            if ($this->shoppingItemService->delete($shoppingItem)) {
+                return $redirector->back()->with(
+                    [
+                        'message' => 'Successfully deleted Item from the Shopping List'
+                    ]
+                );
+            }
+
+            // If failed, redirect with errors.
+            return $redirector->back()->withErrors(
+                [
+                    'Could not delete Item from the Shopping List'
+                ]
+            );
+        } catch (Throwable $throwable) {
+            $this->logger->critical($throwable->getMessage());
+
+            return $redirector->back()->withErrors(
+                [
+                    'Could not delete Item from the Shopping List'
+                ]
+            );
+        }
     }
 }

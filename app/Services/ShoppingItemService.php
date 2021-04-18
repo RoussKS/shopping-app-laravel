@@ -41,6 +41,16 @@ class ShoppingItemService implements ShoppingItemServiceContract
     }
 
     /**
+     * @inheritDoc
+     *
+     * @throws \Exception
+     */
+    public function delete(ShoppingItem $shoppingItem)
+    {
+        return $shoppingItem->delete();
+    }
+
+    /**
      * Get a base ShoppingList Model Query.
      *
      * @return \Illuminate\Database\Eloquent\Builder|\App\Models\ShoppingItem

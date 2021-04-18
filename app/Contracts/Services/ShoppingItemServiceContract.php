@@ -29,4 +29,14 @@ interface ShoppingItemServiceContract
      * @return \App\Models\ShoppingItem
      */
     public function create(ShoppingItemInputModel $inputModel): ShoppingItem;
+
+    /**
+     * Delete a Shopping Item.
+     * As Route model binding resolves to the model, no need to re-query, so use the model directly.
+     *
+     * @param  \App\Models\ShoppingItem $shoppingItem
+     *
+     * @return bool
+     */
+    public function delete(ShoppingItem $shoppingItem);
 }

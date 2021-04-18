@@ -1,6 +1,6 @@
 @php
 /** @var \App\ViewModels\UserViewModel $user */
-/** @var \App\ViewModels\ShoppingListViewModel|null $shoppingist */
+/** @var \App\ViewModels\ShoppingListViewModel|null $shoppingList */
 /** @var \Illuminate\Support\Collection|\App\ViewModels\ShoppingItemViewModel[] $shoppingItems */
 @endphp
 <x-app-layout>
@@ -42,14 +42,24 @@
                         </div>
                     </div>
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <h3>{{ __('Your Items') }}</h3>
-                        <ul class="mt-2 pl-4">
+                        <h3 class="underline">{{ __('Your Items') }}</h3>
+                        <ul class="mt-2">
                             @forelse($shoppingItems as $shoppingItem)
-                                <li class="list-disc">
-                                    {{ $shoppingItem->name }}
+                                <li class="flex flex-wrap items-center">
+                                    <span class="list-disc">{{ $shoppingItem->name }}</span>
+                                    <form method="POST"
+                                          action="{{ route('shopping-items.destroy', ['shopping_list' => $shoppingList->uuid, 'shopping_item' => $shoppingItem->uuid]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="flex flex-wrap items-center">
+                                            <x-button class="ml-2">
+                                                {{ __('Remove item') }}
+                                            </x-button>
+                                        </div>
+                                    </form>
                                 </li>
                             @empty
-                                <li class="-ml-4">{{ __('You do not have any items in your list') }}</li>
+                                <li>{{ __('You do not have any items in your list') }}</li>
                             @endforelse
                         </ul>
                     </div>
