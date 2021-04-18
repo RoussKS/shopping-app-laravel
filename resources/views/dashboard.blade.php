@@ -34,7 +34,7 @@
                                              :value="old('shopping_item_name')"
                                              required />
 
-                                    <x-button class="ml-2">
+                                    <x-button class="ml-2 bg-green-500 hover:bg-green-600">
                                         {{ __('Add item to your shopping List') }}
                                     </x-button>
                                 </div>
@@ -45,14 +45,39 @@
                         <h3 class="underline">{{ __('Your Items') }}</h3>
                         <ul class="mt-2">
                             @forelse($shoppingItems as $shoppingItem)
-                                <li class="flex flex-wrap items-center">
+                                <li class="mt-2 flex flex-wrap items-center">
                                     <span class="list-disc">{{ $shoppingItem->name }}</span>
+                                    {{-- Mark an item as purchased form, if it is not --}}
+                                    @if (!$shoppingItem->is_purchased)
+                                        <form method="POST"
+                                              action="{{ route('shopping-items.update', ['shopping_list' => $shoppingList->uuid, 'shopping_item' => $shoppingItem->uuid]) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="flex flex-wrap items-center">
+                                                <x-label class="sr-only"
+                                                         for="{{ $shoppingItem->uuid }}_is_purchased"
+                                                         :value="__('Is Purchased:')" />
+
+                                                <x-input id="{{ $shoppingItem->uuid }}_is_purchased"
+                                                         type="checkbox"
+                                                         class="hidden"
+                                                         name="is_purchased"
+                                                         :value="1"
+                                                         checked
+                                                         required />
+                                                <x-button class="ml-2">
+                                                    {{ __('Mark item as purchased') }}
+                                                </x-button>
+                                            </div>
+                                        </form>
+                                    @endif
+                                    {{-- Delete an item form --}}
                                     <form method="POST"
                                           action="{{ route('shopping-items.destroy', ['shopping_list' => $shoppingList->uuid, 'shopping_item' => $shoppingItem->uuid]) }}">
                                         @csrf
                                         @method('DELETE')
                                         <div class="flex flex-wrap items-center">
-                                            <x-button class="ml-2">
+                                            <x-button class="ml-2 bg-red-500 hover:bg-red-600">
                                                 {{ __('Remove item') }}
                                             </x-button>
                                         </div>

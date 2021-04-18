@@ -47,6 +47,10 @@ Route::prefix('shopping-lists')->middleware(['auth'])->group(function () {
             '/shopping-item',
             [ShoppingItemController::class, 'store']
         )->name('shopping-items.store');
+        Route::patch(
+            '/shopping-item/{shopping_item}',
+            [ShoppingItemController::class, 'update']
+        )->name('shopping-items.update');
         Route::delete(
             '/shopping-item/{shopping_item}',
             [ShoppingItemController::class, 'destroy']
