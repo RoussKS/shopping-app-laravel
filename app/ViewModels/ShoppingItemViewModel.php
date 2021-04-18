@@ -63,4 +63,14 @@ class ShoppingItemViewModel extends Model
             $this->$attribute = $data[$attribute];
         }
     }
+
+    /**
+     * Set all attributes to null
+     */
+    public function nullify(): void
+    {
+        foreach ($this->fillable as $attribute) {
+            $this->$attribute = null;
+        }
+    }
 }

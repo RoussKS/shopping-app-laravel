@@ -18,6 +18,14 @@ class ShoppingItemService implements ShoppingItemServiceContract
     /**
      * @inheritDoc
      */
+    public function getAllByShoppingListId(int $shoppingListId)
+    {
+        return $this->query()->where(['shopping_list_id' => $shoppingListId])->get();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function create(ShoppingItemInputModel $inputModel): ShoppingItem
     {
         /** @var \App\Models\ShoppingItem $shoppingItem */

@@ -15,6 +15,13 @@ use App\Models\ShoppingItem;
 interface ShoppingItemServiceContract
 {
     /**
+     * @param  int $shoppingListId
+     *
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllByShoppingListId(int $shoppingListId);
+
+    /**
      * Create a new Shopping Item.
      *
      * @param  \App\InputModels\ShoppingItemInputModel $inputModel
