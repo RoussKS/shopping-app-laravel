@@ -40,13 +40,17 @@ Route::prefix('shopping-lists')->middleware(['auth'])->group(function () {
          * Shopping Item routes
          *
          * POST: shopping-lists/{shopping-list}/shopping-item
-         * UPDATE: shopping-lists/{shopping-list}/shopping-item/{shopping-item}
+         * PATCH: shopping-lists/{shopping-list}/shopping-item/{shopping-item}
          * DELETE: shopping-lists/{shopping-list}/shopping-item/{shopping-item}
          */
         Route::post(
             '/shopping-item',
             [ShoppingItemController::class, 'store']
         )->name('shopping-items.store');
+        Route::delete(
+            '/shopping-item',
+            [ShoppingItemController::class, 'destroy']
+        )->name('shopping-items.destroy');
     });
 });
 
