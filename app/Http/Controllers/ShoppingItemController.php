@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Services\ShoppingItemServiceContract;
 use App\Http\Requests\ShoppingItem\ShoppingItemStoreRequest;
 use App\InputModels\ShoppingItemInputModel;
+use App\Models\ShoppingList;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -49,6 +50,7 @@ class ShoppingItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \App\Models\ShoppingList $shoppingList
      * @param  \App\Http\Requests\ShoppingItem\ShoppingItemStoreRequest $request
      * @param  \App\InputModels\ShoppingItemInputModel $inputModel
      * @param  \Illuminate\Routing\Redirector $redirector
@@ -56,23 +58,17 @@ class ShoppingItemController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(
+        ShoppingList $shoppingList,
         ShoppingItemStoreRequest $request,
         ShoppingItemInputModel $inputModel,
         Redirector $redirector
     ): RedirectResponse {
         try {
-            /**
-             * This is autoresolved from route model binding.
-             *
-             * @var \App\Models\ShoppingList $shoppingList
-             */
-            $shoppingList = $request->route('shopping-list');
-
             $requestInput = $request->validated();
 
             $inputModel->setAttributes(
                 [
-                    'name' => $requestInput['name'],
+                    'name' => $requestInput['shopping_item_name'],
                     'shopping_list_id' => $shoppingList->id,
                     'is_purchased' => false // When created, should not already been purchased.
                 ]

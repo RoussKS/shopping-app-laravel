@@ -35,7 +35,7 @@ Route::prefix('shopping-lists')->middleware(['auth'])->group(function () {
     Route::post('', [ShoppingListController::class, 'store'])->name('shopping-lists.store');
 
     // Actions routed by specific shopping list
-    Route::prefix('/{shopping-list}')->group(function () {
+    Route::prefix('/{shopping_list}')->group(function () {
         /*
          * Shopping Item routes
          *

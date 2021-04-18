@@ -25,7 +25,7 @@ class ShoppingItemStoreRequest extends FormRequest
     public function authorize(Gate $gate): bool
     {
         // Pass Shopping List route param (model binding) to Policy, to validate user authorization.
-        return $gate->allows('create', [ShoppingItem::class, $this->route('shopping-list')]);
+        return $gate->allows('create', [ShoppingItem::class, $this->route('shopping_list')]);
     }
 
     /**
@@ -37,7 +37,7 @@ class ShoppingItemStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string'
+            'shopping_item_name' => 'required|string'
         ];
     }
 }

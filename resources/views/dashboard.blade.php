@@ -20,16 +20,37 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h2>{{ __('Your Shopping List') }}</h2>
                         <div class="mt-2">
-                            {{ __('Add an item to your Shopping List') }}
+                            <form method="POST"
+                                  action="{{ route('shopping-items.store', ['shopping_list' => $shoppingList->uuid]) }}">
+                                @csrf
+                                @method('POST')
+                                <div class="flex flex-wrap items-center">
+                                    <x-label for="shopping_item_name" :value="__('Item:')" />
+
+                                    <x-input id="shopping_item_name"
+                                             class="ml-2"
+                                             type="text"
+                                             name="shopping_item_name"
+                                             :value="old('shopping_item_name')"
+                                             required />
+
+                                    <x-button class="ml-2">
+                                        {{ __('Add item to your shopping List') }}
+                                    </x-button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <ul>
-                            @foreach($shoppingItems as $shoppingItem)
-                                <li>
-                                    {{ __('Shopping Item: ') }} {{ $shoppingItem->name }}
+                        <h3>{{ __('Your Items') }}</h3>
+                        <ul class="mt-2 pl-4">
+                            @forelse($shoppingItems as $shoppingItem)
+                                <li class="list-disc">
+                                    {{ $shoppingItem->name }}
                                 </li>
-                            @endforeach
+                            @empty
+                                <li class="-ml-4">{{ __('You do not have any items in your list') }}</li>
+                            @endforelse
                         </ul>
                     </div>
                 @else
