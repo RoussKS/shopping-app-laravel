@@ -5,14 +5,19 @@
 - Copy/Rename `.env.example` to `.env` and populate your preferred credentials for DB etc.
 - If running the app for the first time, run `./vendor/bin/sail build` in the app folder.
 - Run `./vendor/bin/sail up -d` in the app folder.
-- Run `./vendor/bin/sail composer install` in the app folder
-- Run `./vendor/bin/sail npm install` in the app folder
-- Run `./vendor/bin/sail npm run dev` in the app folder
+- Run `./vendor/bin/sail composer install` in the app folder.
+- Run `./vendor/bin/sail npm install` in the app folder.
+- Run `./vendor/bin/sail npm run dev` in the app folder.
 - Run `./vendor/bin/sail artisan migrate:fresh --seed`.
     - Generates the necessary tables and seeds the database adding 3 random test users as long as `APP_ENV=local` in the `.env` file.
     - User 1: `email = user-1@mailinator.com`, `password = Password_001`
     - User 2: `email = user-2@mailinator.com`, `password = Password_002`
     - User 3: `email = user-3@mailinator.com`, `password = Password_003`
+- Run `./vendor/bin/sail artisan up` in the app folder to start the app.
+
+- Run `./vendor/bin/sail test` in the app folder to execute tests.
+
+Make sure you execute the database refresh with seed after running tests to refresh the database for accessing the application via the browser.
 
 ### Allowed Actions
 - Login (GET/POST), displays login screen and allows login action
