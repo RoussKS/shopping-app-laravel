@@ -32,7 +32,7 @@ Make sure you execute the database refresh with seed after running tests to refr
 - The application was built using [Laravel PHP Framework](https://laravel.com).
 - It is using [Laravel Sail](https://laravel.com/docs/8.x/sail) which is a command line interface & docker container environment for laravel.
 - Each Model has a UUID which is used instead of standard Increment IDs as an additional security best practice.
-- Extra time was taken in R&D, Docker & App setup and also while development in structuring the app. Tried to make it feel as less an MVP as possible.
+- Extra time was taken in R&D & App setup and also while development in structuring the app. Tried to make it feel as less an MVP as possible.
 - Services follow their respective Contract.
 - Controllers were kept as thin as possible.
 - Separate Request models per request type following Laravel & [RESTful](https://laravel.com/docs/8.x/controllers#resource-controllers) conventions.
