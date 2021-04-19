@@ -44,15 +44,15 @@ Route::prefix('shopping-lists')->middleware(['auth'])->group(function () {
          * DELETE: shopping-lists/{shopping-list}/shopping-item/{shopping-item}
          */
         Route::post(
-            '/shopping-item',
+            '/shopping-items',
             [ShoppingItemController::class, 'store']
         )->name('shopping-items.store');
         Route::patch(
-            '/shopping-item/{shopping_item}',
+            '/shopping-items/{shopping_item}',
             [ShoppingItemController::class, 'update']
         )->name('shopping-items.update');
         Route::delete(
-            '/shopping-item/{shopping_item}',
+            '/shopping-items/{shopping_item}',
             [ShoppingItemController::class, 'destroy']
         )->name('shopping-items.destroy');
     });
