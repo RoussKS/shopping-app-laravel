@@ -28,7 +28,8 @@ class ShoppingItemFactory extends Factory
     public function definition()
     {
         return [
-            'name' => Str::random(8)
+            'name' => Str::random(8),
+            'is_purchased' => false
         ];
     }
 }
