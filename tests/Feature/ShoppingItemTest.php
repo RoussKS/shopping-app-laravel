@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\ShoppingItem;
 use App\Models\ShoppingList;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -89,5 +90,81 @@ class ShoppingItemTest extends TestCase
 
         // Shopping list should not have any items.
         self::assertEmpty($shoppingList->shoppingItems->all());
+    }
+
+    public function test_authenticated_users_can_delete_items_from_their_shopping_list(): void
+    {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+
+        /** @var \App\Models\ShoppingList $shoppingList */
+        $shoppingList = ShoppingList::factory()->create(
+            [
+                'user_id' => $user->id
+            ]
+        );
+
+        /** @var \App\Models\ShoppingItem $shoppingItem */
+        $shoppingItem = ShoppingItem::factory()->create(
+            [
+                'name' => Str::random(6),
+                'shopping_list_id' => $shoppingList->id
+            ]
+        );
+
+        $this->actingAs($user);
+
+        // Visit dashboard first where the post request will be available.
+        $this->get('dashboard');
+
+        $response = $this->delete('shopping-lists/' . $shoppingList->uuid . '/shopping-items/' . $shoppingItem->uuid);
+
+        $shoppingItems = $shoppingList->shoppingItems->all();
+
+        // Shopping list should be empty.
+        self::assertEmpty($shoppingItems);
+
+        $response->assertSessionHasNoErrors();
+
+        $response->assertSessionHas('status', 'Successfully deleted Item from the Shopping List');
+    }
+
+    public function test_authenticated_users_cannot_delete_items_from_other_users_shopping_list(): void
+    {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+
+        /** @var \App\Models\ShoppingList $shoppingList */
+        $shoppingList = ShoppingList::factory()->create(
+            [
+                'user_id' => $user->id
+            ]
+        );
+
+        /** @var \App\Models\ShoppingItem $shoppingItem */
+        $shoppingItem = ShoppingItem::factory()->create(
+            [
+                'name' => Str::random(6),
+                'shopping_list_id' => $shoppingList->id
+            ]
+        );
+
+        /** @var \App\Models\User $anotherUser */
+        $anotherUser = User::factory()->create();
+
+        // Login and act as second user.
+        $this->actingAs($anotherUser);
+
+        // Visit dashboard first where the post request will be available.
+        $this->get('dashboard');
+
+        $response = $this->delete('shopping-lists/' . $shoppingList->uuid . '/shopping-items/' . $shoppingItem->uuid);
+
+        $response->assertForbidden();
+
+        $shoppingItems = $shoppingList->shoppingItems->all();
+
+        // Shopping list should be empty.
+        self::assertNotEmpty($shoppingItems);
     }
 }
