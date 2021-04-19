@@ -2,69 +2,92 @@
 
 namespace Tests\Feature;
 
+use App\Models\ShoppingList;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class ShoppingListTest
+ * Class ShoppingItemTest
  *
  * @package Tests\Feature
  */
-class ShoppingListTest extends TestCase
+class ShoppingItemTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @throws \Exception
-     */
-    public function test_guest_user_cannot_create_shopping_list(): void
-    {
-        $response = $this->post('shopping-lists/');
-
-        $response->assertRedirect('/login');
-
-        $this->assertDatabaseCount('shopping_lists', 0);
-    }
-
-    public function test_authenticated_user_can_create_shopping_list(): void
+    public function test_authenticated_users_can_add_items_to_their_shopping_list(): void
     {
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
+
+        /** @var \App\Models\ShoppingList $shoppingList */
+        $shoppingList = ShoppingList::factory()->create(
+            [
+                'user_id' => $user->id
+            ]
+        );
 
         $this->actingAs($user);
 
         // Visit dashboard first where the post request will be available.
         $this->get('dashboard');
 
-        $response = $this->post('shopping-lists');
+        $shoppingItemName = Str::random(8);
 
-        $response->assertRedirect('dashboard');
+        $response = $this->post(
+            'shopping-lists/' . $shoppingList->uuid . '/shopping-items',
+            [
+                'shopping_item_name' => $shoppingItemName
+            ]
+        );
+
+        $shoppingItems = $shoppingList->shoppingItems->all();
+
+        // Shopping list should have at least one items.
+        self::assertNotEmpty($shoppingItems);
+        self::assertCount(1, $shoppingItems);
 
         $response->assertSessionHasNoErrors();
 
-        $response->assertSessionHas('message', 'Successfully created Shopping List');
+        $response->assertSessionHas('status', 'Successfully added Item to the Shopping List');
     }
 
-    public function test_authenticated_user_can_not_create_more_than_one_shopping_list(): void
+    public function test_authenticated_users_cannot_add_items_to_other_users_shopping_list(): void
     {
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
 
-        $this->actingAs($user);
+        /** @var \App\Models\ShoppingList $shoppingList */
+        $shoppingList = ShoppingList::factory()->create(
+            [
+                'user_id' => $user->id
+            ]
+        );
+
+        /** @var \App\Models\User $anotherUser */
+        $anotherUser = User::factory()->create();
+
+        // Login and act as second user.
+        $this->actingAs($anotherUser);
 
         // Visit dashboard first where the post request will be available.
         $this->get('dashboard');
 
-        // Create first shopping list.
-        $this->post('shopping-lists');
+        $shoppingItemName = Str::random(8);
 
-        // Attempt to create second second shopping list.
-        $secondResponse = $this->post('shopping-lists');
+        $response = $this->post(
+            'shopping-lists/' . $shoppingList->uuid . '/shopping-items',
+            [
+                'shopping_item_name' => $shoppingItemName
+            ]
+        );
 
         // Expect to fail with 403.
-        $secondResponse->assertForbidden();
+        $response->assertForbidden();
+
+        // Shopping list should not have any items.
+        self::assertEmpty($shoppingList->shoppingItems->all());
     }
 }
