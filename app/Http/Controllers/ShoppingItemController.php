@@ -81,7 +81,7 @@ class ShoppingItemController extends Controller
 
             return $redirector->back()->with(
                 [
-                    'message' => 'Successfully added Item to the Shopping List'
+                    'status' => 'Successfully added Item to the Shopping List'
                 ]
             );
         } catch (Throwable $throwable) {
@@ -129,7 +129,7 @@ class ShoppingItemController extends Controller
             // Redirect with message on success.
             return $redirector->back()->with(
                 [
-                    'message' => 'Successfully deleted Item from the Shopping List'
+                    'status' => 'Successfully marked Item as purchased'
                 ]
             );
         } catch (Throwable $throwable) {
@@ -137,7 +137,7 @@ class ShoppingItemController extends Controller
 
             return $redirector->back()->withErrors(
                 [
-                    'Could not mark the Shopping Item as purchased'
+                    'Could not mark the Item as purchased'
                 ]
             );
         }
@@ -164,7 +164,7 @@ class ShoppingItemController extends Controller
             if ($this->shoppingItemService->delete($shoppingItem)) {
                 return $redirector->back()->with(
                     [
-                        'message' => 'Successfully deleted Item from the Shopping List'
+                        'status' => 'Successfully deleted Item from the Shopping List'
                     ]
                 );
             }
