@@ -1,62 +1,48 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Shopping List Laravel Test Application
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Initial Setup
+- Git clone the repo to your preferred directory destination ie `git clone git@github.com:RoussKS/shopping-app-laravel.git ~/shopping-app-laravel`
+- Copy/Rename `.env.example` to `.env` and populate your preferred credentials for DB etc.
+- If running the app for the first time, run `./vendor/bin/sail build` in the app folder.
+- Run `./vendor/bin/sail up -d` in the app folder.
+- Run `./vendor/bin/sail composer install` in the app folder
+- Run `./vendor/bin/sail npm install` in the app folder
+- Run `./vendor/bin/sail npm run dev` in the app folder
+- Run `./vendor/bin/sail artisan migrate:fresh --seed`.
+    - Generates the necessary tables and seeds the database adding 3 random test users as long as `APP_ENV=local` in the `.env` file.
+    - User 1: `email = user-1@mailinator.com`, `password = Password_001`
+    - User 2: `email = user-2@mailinator.com`, `password = Password_002`
+    - User 3: `email = user-3@mailinator.com`, `password = Password_003`
 
-## About Laravel
+### Allowed Actions
+- Login (GET/POST), displays login screen and allows login action
+- Logout
+- Dashboard (GET), displays main app page for authenticated user & displays shopping list, shopping items & actions.
+- Create (POST) a new Shopping List.
+- Create (POST) a new Shopping Item.
+- Update (PATCH) an existing Shopping Item to mark it as purchased.
+- Delete (DELETE) an existing Shopping Item.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Assumptions, Considerations
+- The application was built using [Laravel PHP Framework](https://laravel.com).
+- It is using [Laravel Sail](https://laravel.com/docs/8.x/sail) which is a command line interface & docker container environment for laravel.
+- Each Model has a UUID which is used instead of standard Increment IDs as an additional security best practice.
+- Extra time was taken in R&D, Docker & App setup and also while development in structuring the app. Tried to make it feel as less an MVP as possible.
+- Services follow their respective Contract.
+- Controllers were kept as thin as possible.
+- Separate Request models per request type following Laravel & [RESTful](https://laravel.com/docs/8.x/controllers#resource-controllers) conventions.
+- Leverages the framework's IoC for DI.
+- Leverages the framework's [Route Model Binding](https://laravel.com/docs/8.x/routing#route-model-binding) feature (auto match a route by route key to a Model's route if found,this is using the Models UUID's).
+- Leverages the framework's collections.
+- Leverages the framework's [Request input validation](https://laravel.com/docs/8.x/validation#form-request-validation).
+- Leverages the framework's [Request input validation](https://laravel.com/docs/8.x/validation#form-request-validation) & [Policies](https://laravel.com/docs/8.x/authorization#creating-policies) for each provided action/endpoint to handle authorization.
+- Uses Input Models when creating/update a Model. This enforces a sort of contract for input to the system after request validation, instead of displaying the default model.
+- Uses View Models when displaying Model data on the templates. This enforces a sort of contract for output, instead of displaying the default model.
+- Documentation blocks & comments were created while developing as much as possible to allow for an easy read through the code.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Limitations
+- No Eager loading or Pagination is used at this stage. They should be used when collections start getting large in size to facilitate N+1 problems and better UI.
+- Test suite is mostly around authenticating various user actions. Test suite should be enhanced, though a lot of actions are covered by native Framework code and tests.
+- Passwords, keys & other sensitive data are currently stored in the Repo for quick setup and use, as this is a test application. That would not be the case for a real life example.
+- Repositories should be used with conjuction with services to allow better de-association from the framework.
+- Layout styling can be improved
