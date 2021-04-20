@@ -2,12 +2,13 @@
 
 ### Initial Setup
 - Git clone the repo to your preferred directory destination ie `git clone git@github.com:RoussKS/shopping-app-laravel.git ~/shopping-app-laravel`
-- Copy/Rename `.env.example` to `.env` and populate your preferred credentials for DB etc.
+- Copy/Rename `.env.example` to `.env` and populate your preferred credentials for DB etc (APP_KEY is required, generated on a next step command).
 - If running the app for the first time, run `./vendor/bin/sail build` in the app folder.
 - Run `./vendor/bin/sail up -d` in the app folder.
 - Run `./vendor/bin/sail composer install` in the app folder.
 - Run `./vendor/bin/sail npm install` in the app folder.
 - Run `./vendor/bin/sail npm run dev` in the app folder.
+- Run `./vendor/bin/sail artisan key:generate` in the app folder to generate an APP key in your `.env` file.
 - Run `./vendor/bin/sail artisan migrate:fresh --seed`.
     - Generates the necessary tables and seeds the database adding 3 random test users as long as `APP_ENV=local` in the `.env` file.
     - User 1: `email = user-1@mailinator.com`, `password = Password_001`
